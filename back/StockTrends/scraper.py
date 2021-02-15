@@ -75,7 +75,7 @@ class StockTrends:
         print("Processing Tickers...")
         # Count number of occurrences of the Ticker and verify id the Ticker exists
         counts = reduce(add, map(Counter, tickers))
-
+        
         # Create Datable of just mentions
         df_tick = pd.DataFrame(counts.items(),
                                columns=['Ticker', 'Mentions'])
@@ -88,19 +88,14 @@ class StockTrends:
 
         if not os.path.exists(data_directory):
             os.mkdir(data_directory)
-        print(df_tick)
+        #print(df_tick)
         output_path = f'{data_directory}/{filename}.csv'
         df_tick.to_csv(output_path, index=False)
 
         return df_tick
 
     def get_finance_data(self, df_tick):
-
-        Finance = yfinance_analysis.FinanceAnalysis(df_tick)
-
-        finance_df = Finance.analyze()
-
-        return finance_df
+        return yfinance_analysis.FinanceAnalysis(df_tick).analyze()
 
     def data_with_stats(self, data_df, df_posts):
         df_posts.tickers = df_posts.tickers.apply(list)

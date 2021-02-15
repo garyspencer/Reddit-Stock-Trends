@@ -38,7 +38,7 @@ class FinanceAnalysis:
         # Save to file to load into yahoo analysis script
         output_path = data_directory / f'df_best_{best_n}.csv'
         df_best.to_csv(output_path, index=False)
-        print(df_best.head())
+        #print(df_best.head())
 
     def calculate_change(self, start: float, end: float) -> float:
         """Use Yahoo Finance API to get the relevant data."""
