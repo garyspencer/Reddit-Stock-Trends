@@ -12,6 +12,6 @@ for p_name in portfolio.get_portfolios():
 
 # def get_data (with_finance=False, with_stats=False)
 data = scraper.get_data()
-portfolio.create_portfolio_from_scraper_data(data)
+portfolio.crupdate_portfolio_from_scraper_frames("scrape_latest", data)
 
 print(data)

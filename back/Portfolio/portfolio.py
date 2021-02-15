@@ -32,8 +32,7 @@ class Portfolio:
         if self.portfolio_exists(portfolio_name):
             return self.get_portfolios()[portfolio_name].split(",")
         else:
-            pass
-            #print ("portfolio " + portfolio_name + " did not exist.")
+            print ("Could not retrieve tickers. Portfolio [" + portfolio_name + "] did not exist.")
         
     def write_portfolio(self):
         with open(self.config_path, 'w') as configfile:
@@ -46,24 +45,37 @@ class Portfolio:
             print((" " + f).ljust( 30, ' ') + ":")
         print("------------------------------'")
 
-    def create_portfolio_from_scraper_data(self, portfolio scraper_data):
-        print ("made it here...")
-
     def crupdate_portfolio_from_scraper_frames(self, portfolio_name:str, scraper_data):
-        print ("made it here... too...")
-        if not self.portfolio_exists(portfolio_name):
             tickers = self.do_stuff_with_scraper_data(scraper_data)
-            self.add_portfolio(portfolio_name)
-        else:
-            self.update_portfolio(portfolio_name,)
+            self.update_portfolio(portfolio_name, tickers, force_update=True)
     
-    def update_portfolio(self, portfolio_name:str, tickers):
-        if self.portfolio_exists(portfolio_name):
+    def update_portfolio(self, portfolio_name:str, tickers:str, force_update:bool=False):
+        
+        self.compare_portfolio (portfolio_name, tickers)
+        
+        if self.portfolio_exists(portfolio_name) or force_update == True:
             self.config["Portfolios"][portfolio_name] = tickers
             self.write_portfolio()
-            
+
+    def add_ticker(self, portfolio_name:str, ticker:str):
+        if self.portfolio_exists(portfolio_name):
+            tickers = self.get_tickers(portfolio_name)
+
+            if ticker in tickers:
+                print("Ticker already Existed")
+            else:
+                tickers.push(ticker)
+                self.update_portfolio(portfolio_name,",".join(tickers))
+        else:
+            print ("Could not add ticker - Portfolio [" + portfolio_name + "] does not exist.")
+
     def do_stuff_with_scraper_data (self, scraper_data):
         print("Doing stuff to scraper data...")
+        return "THIS,IS,A,TEST"
+
+    def compare_portfolio(self, portfolio_name, tickers):
+        print ("Comparing portfolio before updating...")
+
 
 # def main():
 #     portfolios = Portfolio()
